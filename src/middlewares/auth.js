@@ -1,17 +1,17 @@
-const authService = require("../services/auth");
+const authService = require('../services/auth')
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers?.["x-access-token"];
+  const token = req.headers?.['x-access-token']
 
   try {
-    const claims = authService.decodeToken(token);
+    const claims = authService.decodeToken(token)
 
-    req.userId = claims.sub;
+    req.userId = claims.sub
 
-    next();
+    next()
   } catch (err) {
-    res.status?.(401).send({ code: 401, error: err.message });
+    res.status?.(401).send({ code: 401, error: err.message })
   }
-};
+}
 
-module.exports = authMiddleware;
+module.exports = authMiddleware

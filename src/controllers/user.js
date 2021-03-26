@@ -1,37 +1,37 @@
-const User = require("../models/User");
-const authService = require("../services/auth");
-const ApplicationError = require("../definitions/Errors");
+const User = require('../models/User')
+const authService = require('../services/auth')
+const ApplicationError = require('../definitions/Errors')
 
 const createUser = async (req, res) => {
-  const user = new User(req.body);
-  const newUser = await user.save();
+  const user = new User(req.body)
+  const newUser = await user.save()
 
-  return res.code(201).send(newUser);
-};
+  return res.code(201).send(newUser)
+}
 
 const authenticateUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email })
 
-  if (!user) throw new ApplicationError("User not found", 401);
+  if (!user) throw new ApplicationError('User not found', 401)
 
   if (!(await authService.comparePasswords(password, user.password)))
-    throw new ApplicationError("Password does not match", 401);
+    throw new ApplicationError('Password does not match', 401)
 
-  const token = authService.generateToken(user.id);
+  const token = authService.generateToken(user.id)
 
-  return res.send({ ...user.toJSON(), ...{ token } });
-};
+  return res.send({ ...user.toJSON(), ...{ token } })
+}
 
 const fetchUser = async (req, res) => {
-  const userId = req?.userId;
+  const userId = req?.userId
 
-  const user = await User.findOne({ _id: userId });
+  const user = await User.findOne({ _id: userId })
 
-  if (!user) throw new ApplicationError("User not found", 404);
+  if (!user) throw new ApplicationError('User not found', 404)
 
-  return res.send({ user });
-};
+  return res.send({ user })
+}
 
-module.exports = { createUser, authenticateUser, fetchUser };
+module.exports = { createUser, authenticateUser, fetchUser }

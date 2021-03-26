@@ -8,10 +8,10 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest",
-    "lint": "eslint ./src ./test --ext .ts",
-    "lint:fix": "eslint ./src ./test --ext .ts --fix",
-    "style:check": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",
-    "style:fix": "prettier --write 'src/**/*.ts' 'test/**/*.ts'"
+    "lint": "eslint ./src ./__tests__",
+    "lint:fix": "eslint ./src ./__tests__ --fix",
+    "style:check": "prettier --check 'src/**/*.js' '__tests__/**/*.js'",
+    "style:fix": "prettier --write 'src/**/*.js' '__tests__/**/*.js'"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
@@ -31,6 +31,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "eslint": "^7.22.0",
     "fastify": "^3.14.0",
     "fastify-cors": "^5.2.0",
     "fastify-helmet": "^5.3.1",
@@ -38,6 +39,7 @@
     "jsonwebtoken": "^8.5.1",
     "middie": "^5.2.0",
     "mongoose": "^5.12.2",
-    "mongoose-auto-increment": "^5.0.1"
+    "mongoose-auto-increment": "^5.0.1",
+    "prettier": "^2.2.1"
   }
 }

@@ -7,31 +7,31 @@
 const {
   createUser,
   authenticateUser,
-  fetchUser,
-} = require("../controllers/user");
+  fetchUser
+} = require('../controllers/user')
 
-const authMiddleware = require("../middlewares/auth");
+const authMiddleware = require('../middlewares/auth')
 
-const userRouter = async (instance) => {
+const userRouter = async instance => {
   instance.route({
-    url: "/users",
-    method: "POST",
+    url: '/users',
+    method: 'POST',
     // schema: createUserSchema,
-    handler: createUser,
-  });
+    handler: createUser
+  })
 
   instance.route({
-    url: "/users/authenticate",
-    method: "POST",
-    handler: authenticateUser,
-  });
+    url: '/users/authenticate',
+    method: 'POST',
+    handler: authenticateUser
+  })
 
   instance.route({
-    url: "/users/me",
-    method: "GET",
+    url: '/users/me',
+    method: 'GET',
     preHandler: [authMiddleware],
-    handler: fetchUser,
-  });
+    handler: fetchUser
+  })
 
   // instance.route({
   //   url: "/user/:id",
@@ -53,6 +53,6 @@ const userRouter = async (instance) => {
   //   schema: fetchAccountInfoSchema,
   //   handler: fetchAccountInfo,
   // });
-};
+}
 
-module.exports = userRouter;
+module.exports = userRouter

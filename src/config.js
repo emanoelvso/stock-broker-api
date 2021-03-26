@@ -1,16 +1,16 @@
-require("dotenv/config");
+require('dotenv/config')
 
-const { PORT, DB_URI, AUTH_KEY, EXPIRES_IN } = process.env;
+const { PORT, DB_URI, AUTH_KEY, EXPIRES_IN } = process.env
 
 const config = {
   port: PORT,
   db: {
-    uri: DB_URI,
+    uri: DB_URI
   },
   auth: {
     key: AUTH_KEY,
-    expiresIn: EXPIRES_IN,
-  },
-};
+    expiresIn: EXPIRES_IN
+  }
+}
 
-module.exports = config;
+module.exports = config
