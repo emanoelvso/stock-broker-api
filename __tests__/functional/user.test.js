@@ -1,19 +1,8 @@
-const request = require('supertest')
-
-process.env.DB_URI = process.env.MONGO_URL
-
 const authService = require('../../src/services/auth')
 const app = require('../../src/app')
+
 const User = require('../../src/models/User')
 const UserActive = require('../../src/models/UserActive')
-
-beforeAll(async () => {
-  await app.ready()
-})
-
-afterAll(async () => {
-  await app.close()
-})
 
 afterEach(async () => {
   await User.deleteMany({})
@@ -29,7 +18,7 @@ describe('User functional test', () => {
         cpf: '99999999999'
       }
 
-      const { status, body } = await request(app.server)
+      const { status, body } = await global.testRequest
         .post('/api/v1/users')
         .send(newUser)
 
@@ -62,7 +51,7 @@ describe('User functional test', () => {
 
       const user = await new User(newUser).save()
 
-      const response = await request(app.server)
+      const response = await global.testRequest
         .post('/api/v1/users/authenticate')
         .send({ email: newUser.email, password: newUser.password })
 
@@ -72,7 +61,7 @@ describe('User functional test', () => {
     })
 
     it('Should return UNAUTHORIZED if the user with the given email is not found', async () => {
-      const { status, body } = await request(app.server)
+      const { status, body } = await global.testRequest
         .post('/api/v1/users/authenticate')
         .send({ email: 'some-email@mail.com', password: '1234' })
 
@@ -93,7 +82,7 @@ describe('User functional test', () => {
 
       await new User(newUser).save()
 
-      const { status, body } = await request(app.server)
+      const { status, body } = await global.testRequest
         .post('/api/v1/users/authenticate')
         .send({ email: newUser.email, password: 'different password' })
 
@@ -118,7 +107,7 @@ describe('User functional test', () => {
 
       const token = authService.generateToken(user.id)
 
-      const { body, status } = await request(app.server)
+      const { body, status } = await global.testRequest
         .get('/api/v1/users/me')
         .set({ 'x-access-token': token })
 
@@ -129,7 +118,7 @@ describe('User functional test', () => {
     it(`Should return Not Found, when the user is not found`, async () => {
       const token = authService.generateToken('fake-user-id')
 
-      const { body, status } = await request(app.server)
+      const { body, status } = await global.testRequest
         .get('/api/v1/users/me')
         .set({ 'x-access-token': token })
 
@@ -166,7 +155,7 @@ describe('User functional test', () => {
 
       const token = authService.generateToken(user.id)
 
-      const { body, status } = await request(app.server)
+      const { body, status } = await global.testRequest
         .get('/api/v1/users/position')
         .set({ 'x-access-token': token })
 
