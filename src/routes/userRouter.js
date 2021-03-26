@@ -7,7 +7,8 @@
 const {
   createUser,
   authenticateUser,
-  fetchUser
+  fetchUser,
+  getUserPosition
 } = require('../controllers/user')
 
 const authMiddleware = require('../middlewares/auth')
@@ -31,6 +32,13 @@ const userRouter = async instance => {
     method: 'GET',
     preHandler: [authMiddleware],
     handler: fetchUser
+  })
+
+  instance.route({
+    url: '/users/position',
+    method: 'GET',
+    preHandler: [authMiddleware],
+    handler: getUserPosition
   })
 
   // instance.route({

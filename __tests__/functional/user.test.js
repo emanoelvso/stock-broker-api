@@ -5,6 +5,7 @@ process.env.DB_URI = process.env.MONGO_URL
 const authService = require('../../src/services/auth')
 const app = require('../../src/app')
 const User = require('../../src/models/User')
+const UserActive = require('../../src/models/UserActive')
 
 beforeAll(async () => {
   await app.ready()
@@ -75,9 +76,9 @@ describe('User functional test', () => {
         .post('/api/v1/users/authenticate')
         .send({ email: 'some-email@mail.com', password: '1234' })
 
-      expect(status).toBe(401)
+      expect(status).toBe(404)
       expect(body).toMatchObject({
-        code: 401,
+        code: 404,
         message: 'User not found'
       })
     })
@@ -134,6 +135,58 @@ describe('User functional test', () => {
 
       expect(status).toBe(404)
       expect(body.message).toBe('User not found')
+    })
+  })
+
+  describe('When getting user position info', () => {
+    it('should return the user position information', async () => {
+      const newUser = {
+        name: 'John Doe',
+        email: 'john@mail.com',
+        password: '1234',
+        cpf: '99999999999',
+        accountAmount: 234
+      }
+
+      const user = await new User(newUser).save()
+
+      await new UserActive({
+        user: user.id,
+        symbol: 'PETR4',
+        amount: 2,
+        currentPrice: 28.44
+      }).save()
+
+      await new UserActive({
+        user: user.id,
+        symbol: 'SANB11',
+        amount: 3,
+        currentPrice: 40.77
+      }).save()
+
+      const token = authService.generateToken(user.id)
+
+      const { body, status } = await request(app.server)
+        .get('/api/v1/users/position')
+        .set({ 'x-access-token': token })
+
+      expect(status).toBe(200)
+      expect(body).toMatchObject({
+        accountAmount: 234.0,
+        positions: [
+          {
+            symbol: 'PETR4',
+            amount: 2,
+            currentPrice: 28.44
+          },
+          {
+            symbol: 'SANB11',
+            amount: 3,
+            currentPrice: 40.77
+          }
+        ],
+        consolidated: 413.19
+      })
     })
   })
 })

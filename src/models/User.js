@@ -12,7 +12,7 @@ const User = new mongoose.Schema(
       type: String,
       required: true
     },
-    currentAccount: {
+    accountAmount: {
       type: Number,
       default: 0
     },
