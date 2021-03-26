@@ -1,5 +1,4 @@
 const authService = require('../../src/services/auth')
-const app = require('../../src/app')
 
 const User = require('../../src/models/User')
 const UserActive = require('../../src/models/UserActive')
