@@ -1,4 +1,6 @@
 const User = require('../../src/models/User')
+const Active = require('../../src/models/Active')
+
 const authService = require('../../src/services/auth')
 
 describe('order functional tests', () => {
@@ -16,8 +18,11 @@ describe('order functional tests', () => {
 
     const token = authService.generateToken(user.id)
 
-    const { status, body } = global.testRequest
+    await new Active({ symbol: 'SANB11', currentPrice: 40.77 }).save()
+
+    const { status, body } = await global.testRequest
       .post('/api/v1/orders')
+      .send({ symbol: 'SANB11', amount: 3 })
       .set({ 'x-access-token': token })
 
     expect(status).toBe(200)
@@ -38,8 +43,11 @@ describe('order functional tests', () => {
 
     const token = authService.generateToken(user.id)
 
-    const { status, body } = global.testRequest
+    await new Active({ symbol: 'SANB11', currentPrice: 40.77 }).save()
+
+    const { status, body } = await global.testRequest
       .post('/api/v1/orders')
+      .send({ symbol: 'SANB11', amount: 3 })
       .set({ 'x-access-token': token })
 
     expect(status).toBe(400)
