@@ -11,13 +11,10 @@ const UserActive = new mongoose.Schema(
     },
     symbol: {
       type: String,
+      ref: 'Active',
       required: true
     },
     amount: {
-      type: Number,
-      required: true
-    },
-    currentPrice: {
       type: Number,
       required: true
     }
