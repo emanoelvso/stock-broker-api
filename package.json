@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest",
+    "test:functional": "jest --runInBand",
     "lint": "eslint ./src ./__tests__",
     "lint:fix": "eslint ./src ./__tests__ --fix",
     "style:check": "prettier --check 'src/**/*.js' '__tests__/**/*.js'",

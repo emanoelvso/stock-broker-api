@@ -3,10 +3,6 @@ const authService = require('../../src/services/auth')
 const User = require('../../src/models/User')
 const UserActive = require('../../src/models/UserActive')
 
-afterEach(async () => {
-  await User.deleteMany({})
-})
-
 describe('User functional test', () => {
   describe('When creating a new user', () => {
     it('should successfully create a new user with encrypted password', async () => {
