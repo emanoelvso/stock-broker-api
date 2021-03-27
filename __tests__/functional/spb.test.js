@@ -1,10 +1,6 @@
 const User = require('../../src/models/User')
 const authService = require('../../src/services/auth')
 
-afterEach(async () => {
-  await User.deleteMany({})
-})
-
 describe('spb functional tests', () => {
   describe('When creating a transfer', () => {
     it('should successfully transfer', async () => {

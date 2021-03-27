@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const UserActive = require('../models/UserActive')
+const Active = require('../models/Active')
 const ApplicationError = require('../definitions/Errors')
 
 const get = async params => {
@@ -23,7 +24,18 @@ const getPosition = async user => {
 }
 
 const getPositionsAmount = async userId => {
-  const positions = await UserActive.find({ user: userId })
+  const userActives = await UserActive.find({ user: userId })
+
+  const positions = await Promise.all(
+    userActives.map(async position => {
+      const { currentPrice } = await Active.findOne({ symbol: position.symbol })
+
+      return {
+        ...position.toJSON(),
+        currentPrice
+      }
+    })
+  )
 
   const positionsAmount = positions
     .map(position => position.amount * position.currentPrice)

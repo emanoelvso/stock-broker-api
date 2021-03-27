@@ -2,10 +2,7 @@ const authService = require('../../src/services/auth')
 
 const User = require('../../src/models/User')
 const UserActive = require('../../src/models/UserActive')
-
-afterEach(async () => {
-  await User.deleteMany({})
-})
+const Active = require('../../src/models/Active')
 
 describe('User functional test', () => {
   describe('When creating a new user', () => {
@@ -138,18 +135,26 @@ describe('User functional test', () => {
 
       const user = await new User(newUser).save()
 
+      await new Active({
+        symbol: 'PETR4',
+        currentPrice: 28.44
+      }).save()
+
+      await new Active({
+        symbol: 'SANB11',
+        currentPrice: 40.77
+      }).save()
+
       await new UserActive({
         user: user.id,
         symbol: 'PETR4',
-        amount: 2,
-        currentPrice: 28.44
+        amount: 2
       }).save()
 
       await new UserActive({
         user: user.id,
         symbol: 'SANB11',
-        amount: 3,
-        currentPrice: 40.77
+        amount: 3
       }).save()
 
       const token = authService.generateToken(user.id)
