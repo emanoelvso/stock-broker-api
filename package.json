@@ -30,14 +30,12 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "cors": "^2.8.5",
     "eslint": "^7.22.0",
     "fastify": "^3.14.0",
     "fastify-cors": "^5.2.0",
     "fastify-helmet": "^5.3.1",
     "fastify-plugin": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
-    "middie": "^5.2.0",
     "mongoose": "^5.12.2",
     "mongoose-auto-increment": "^5.0.1",
     "prettier": "^2.2.1"

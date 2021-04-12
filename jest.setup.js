@@ -20,5 +20,5 @@ afterAll(async () => {
   jest.clearAllMocks()
   jest.restoreAllMocks()
 
-  // await global.appInstance.close()
+  await global.appInstance.close()
 })

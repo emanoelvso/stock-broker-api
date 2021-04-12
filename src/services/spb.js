@@ -11,7 +11,7 @@ const transfer = async ({ event, target, origin, amount }) => {
       throw new ApplicationError('Cpf does not match', 400)
 
     await User.updateOne(
-      { id: user.id },
+      { _id: user.id },
       { $set: { accountAmount: (user.accountAmount += amount) } }
     )
   }
